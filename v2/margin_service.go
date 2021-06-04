@@ -728,9 +728,9 @@ func (s *ListMarginTradesService) Do(ctx context.Context, opts ...RequestOption)
 
 // GetMaxBorrowableService get max borrowable of asset
 type GetMaxBorrowableService struct {
-	c          *Client
-	asset      string
-	isIsolated bool
+	c              *Client
+	asset          string
+	isolatedSymbol string
 }
 
 // Asset set asset
@@ -739,9 +739,9 @@ func (s *GetMaxBorrowableService) Asset(asset string) *GetMaxBorrowableService {
 	return s
 }
 
-// IsIsolated set isIsolated
-func (s *GetMaxBorrowableService) IsIsolated(isIsolated bool) *GetMaxBorrowableService {
-	s.isIsolated = isIsolated
+// IsolatedSymbol set IsolatedSymbol
+func (s *GetMaxBorrowableService) IsolatedSymbol(isolatedSymbol string) *GetMaxBorrowableService {
+	s.isolatedSymbol = isolatedSymbol
 	return s
 }
 
@@ -753,8 +753,8 @@ func (s *GetMaxBorrowableService) Do(ctx context.Context, opts ...RequestOption)
 		secType:  secTypeSigned,
 	}
 	r.setParam("asset", s.asset)
-	if s.isIsolated {
-		r.setParam("isolatedSymbol", "TRUE")
+	if s.isolatedSymbol != "" {
+		r.setParam("isolatedSymbol", s.isolatedSymbol)
 	}
 	data, err := s.c.callAPI(ctx, r, opts...)
 	if err != nil {
