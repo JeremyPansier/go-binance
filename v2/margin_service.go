@@ -64,10 +64,10 @@ type TransactionResponse struct {
 
 // MarginLoanService apply for a loan
 type MarginLoanService struct {
-	c          *Client
-	asset      string
-	amount     string
-	isIsolated bool
+	c              *Client
+	asset          string
+	amount         string
+	isolatedSymbol string
 }
 
 // Asset set asset being transferred, e.g., BTC
@@ -82,9 +82,9 @@ func (s *MarginLoanService) Amount(amount string) *MarginLoanService {
 	return s
 }
 
-// IsIsolated set isIsolated
-func (s *MarginLoanService) IsIsolated(isIsolated bool) *MarginLoanService {
-	s.isIsolated = isIsolated
+// IsolatedSymbol set IsolatedSymbol
+func (s *MarginLoanService) IsolatedSymbol(isolatedSymbol string) *MarginLoanService {
+	s.isolatedSymbol = isolatedSymbol
 	return s
 }
 
@@ -100,8 +100,8 @@ func (s *MarginLoanService) Do(ctx context.Context, opts ...RequestOption) (res 
 		"amount": s.amount,
 	}
 	r.setFormParams(m)
-	if s.isIsolated {
-		r.setParam("isolatedSymbol", "TRUE")
+	if s.isolatedSymbol != "" {
+		r.setParam("isolatedSymbol", s.isolatedSymbol)
 	}
 	res = new(TransactionResponse)
 	data, err := s.c.callAPI(ctx, r, opts...)
@@ -117,10 +117,10 @@ func (s *MarginLoanService) Do(ctx context.Context, opts ...RequestOption) (res 
 
 // MarginRepayService repay loan for margin account
 type MarginRepayService struct {
-	c          *Client
-	asset      string
-	amount     string
-	isIsolated bool
+	c              *Client
+	asset          string
+	amount         string
+	isolatedSymbol string
 }
 
 // Asset set asset being transferred, e.g., BTC
@@ -135,9 +135,9 @@ func (s *MarginRepayService) Amount(amount string) *MarginRepayService {
 	return s
 }
 
-// IsIsolated set isIsolated
-func (s *MarginRepayService) IsIsolated(isIsolated bool) *MarginRepayService {
-	s.isIsolated = isIsolated
+// IsolatedSymbol set IsolatedSymbol
+func (s *MarginRepayService) IsolatedSymbol(isolatedSymbol string) *MarginRepayService {
+	s.isolatedSymbol = isolatedSymbol
 	return s
 }
 
@@ -153,8 +153,8 @@ func (s *MarginRepayService) Do(ctx context.Context, opts ...RequestOption) (res
 		"amount": s.amount,
 	}
 	r.setFormParams(m)
-	if s.isIsolated {
-		r.setParam("isolatedSymbol", "TRUE")
+	if s.isolatedSymbol != "" {
+		r.setParam("isolatedSymbol", s.isolatedSymbol)
 	}
 	res = new(TransactionResponse)
 	data, err := s.c.callAPI(ctx, r, opts...)
@@ -728,9 +728,9 @@ func (s *ListMarginTradesService) Do(ctx context.Context, opts ...RequestOption)
 
 // GetMaxBorrowableService get max borrowable of asset
 type GetMaxBorrowableService struct {
-	c          *Client
-	asset      string
-	isIsolated bool
+	c              *Client
+	asset          string
+	isolatedSymbol string
 }
 
 // Asset set asset
@@ -739,9 +739,9 @@ func (s *GetMaxBorrowableService) Asset(asset string) *GetMaxBorrowableService {
 	return s
 }
 
-// IsIsolated set isIsolated
-func (s *GetMaxBorrowableService) IsIsolated(isIsolated bool) *GetMaxBorrowableService {
-	s.isIsolated = isIsolated
+// IsolatedSymbol set IsolatedSymbol
+func (s *GetMaxBorrowableService) IsolatedSymbol(isolatedSymbol string) *GetMaxBorrowableService {
+	s.isolatedSymbol = isolatedSymbol
 	return s
 }
 
@@ -753,8 +753,8 @@ func (s *GetMaxBorrowableService) Do(ctx context.Context, opts ...RequestOption)
 		secType:  secTypeSigned,
 	}
 	r.setParam("asset", s.asset)
-	if s.isIsolated {
-		r.setParam("isolatedSymbol", "TRUE")
+	if s.isolatedSymbol != "" {
+		r.setParam("isolatedSymbol", s.isolatedSymbol)
 	}
 	data, err := s.c.callAPI(ctx, r, opts...)
 	if err != nil {
